@@ -1,0 +1,188 @@
+<!DOCTYPE>
+<html>
+	<head>
+	</head>	
+		<body>
+		<canvas id='myCanvas' width='600' height='600'
+		style='border:1px solid
+		#000000;'>
+		</canvas>
+		<script>
+			var c = document.getElementById('myCanvas');
+			var ctx = c.getContext('2d');
+			var player = {width:20, height:20, x:50, y:50, color:'red', xVelo:0, yVelo:0, speedLimit:5, aRate:2, gravity:6};
+			var upKey, rightKey, downKey, leftKey = false;
+			var myVar=setInterval(function () {heartbeat()}, 1000/60);
+			window.addEventListener("keydown", doKeyDown, true);
+			window.addEventListener("keyup", doKeyUp, true);
+			
+			var myTime = setInterval(function() {gameUpdate()}, 1000/60);
+			
+			myVar=setInterval(function () {heartbeat()}, 1000/60);
+			
+			function doKeyDown(e)
+			{
+				//console.log(e.keyCode);
+				if(e.keyCode ==87)
+					{
+					upKey = true;
+					}
+				if(e.keyCode ==68)
+					{
+					rightKey = true;
+					}
+				if(e.keyCode ==83)
+					{
+					downKey = true;
+					}
+				if(e.keyCode ==65)
+					{
+					leftKey = true;
+					}
+			}
+			
+			function doKeyUp(e)
+			{
+				//console.log(e.KeyCode);
+				if(e.keyCode ==87)
+					{
+					upKey = false;
+					}
+				if(e.keyCode ==68)
+					{
+					rightKey = false;
+					}
+				if(e.keyCode ==83)
+					{
+					downKey = false;
+					}
+				if(e.keyCode ==65)
+					{
+					leftKey = false;
+					}
+			
+			}
+		
+			function gameUpdate()
+			{
+				
+				var moved = false;
+				if (upKey && !leftKey && !rightKey && !moved)
+				{
+					player.yVelo-=player.aRate;
+					moved = true;
+				}
+				
+				if (downKey && !leftKey && !rightKey && !moved)
+				{
+					player.yVelo+=player.aRate;
+					move = true;
+				}
+				
+				if (leftKey && !downKey && !upKey && !moved)
+				{
+					player.xVelo-=player.aRate;
+					move = true;
+				}
+				if (rightKey && !downKey && !upKey && !moved)
+				{
+					player.xVelo+=player.aRate;
+					move = true;
+				}
+				
+				if (rightKey && downKey && !moved)
+				{
+					player.xVelo+=.75 * player.aRate;
+					player.yVelo+=.75 * player.aRate;
+					Moved = true;
+				}
+				
+				if (leftKey && downKey && !moved)
+				{
+					player.xVelo-=.75 * player.aRate;
+					player.yVelo+=.75 * player.aRate;
+					moved = true;
+				}
+				
+				if (rightKey && upKey && !moved)
+				{
+					player.xVelo+=.75 * player.aRate;
+					player.yVelo+=-.75 * player.aRate;
+					moved = true;
+				}
+				
+				if (leftKey && upKey && !moved)
+				{
+					player.xVelo+=-.75 * player.aRate;
+					player.yVelo+=-.75 * player.aRate;
+					moved = true;
+				}
+			
+				if (player.xVelo < -1 * player.speedLimit)
+				{
+					player.xVelo = -1 * player.speedLimit;
+				}
+				
+				if (player.xVelo > player.speedLmit)
+				{
+					player.xVelo = player.speedLimit;
+				}
+				
+				if (player.yVelo < -1 * player.speedLimit)
+				{
+					player.yVelo = -1 * player.speedLimit;
+				}
+				
+				if (player.yVelo > player.speedLmit)
+				{
+					player.yVelo = player.speedLimit;
+				}
+				
+				player.x += player.xVelo;
+				player.y += player.yVelo;
+				
+				ctx.fillStyle = player.color;
+				ctx.fillRect(player.x, player.y, player.width, player.height);
+				
+				if (player.x + player.xVelo + player.width > 599)
+				{
+					
+					player.x -= 10;
+					player.xVelo = player.xVelo * -1;
+					keyRight = false;
+				}
+				if (player.y + player.yVelo + player.width > 599)
+				{
+					
+					player.y -= 10;
+					player.yVelo = player.yVelo * -1;
+					keyDown = false;
+				}
+				if (player.x + player.xVelo + player.width < 1)
+				{
+					
+					player.x += 10;
+					player.xVelo = player.xVelo * -1;
+					keyLeft = false;
+				}
+				if (player.y + player.yVelo + player.width < 1)
+				{
+					
+					player.y += 10;
+					player.yVelo = player.yVelo * -1;
+					keyLeft = false;
+				}
+				if (player.yVelo < player.gravity)
+				{
+					player.yVelo += 1;
+				}
+				
+				player.xVelo = player.xVelo * .75;
+				player.yVelo = player.yVelo * .75;
+			}
+			
+			
+			
+		</script>
+		</body>
+</html>
